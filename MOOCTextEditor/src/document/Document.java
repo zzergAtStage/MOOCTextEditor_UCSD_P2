@@ -64,11 +64,67 @@ public abstract class Document {
 	 */
 	protected int countSyllables(String word)
 	{
-		// TODO: Implement this method so that you can call it from the 
-	    // getNumSyllables method in BasicDocument (module 2) and 
-	    // EfficientDocument (module 3).
-	    return 0;
+		int numSyllables = 0;
+		boolean newSyllable = true;
+		String vowels = "aeiouy";
+		char[] cArray = word.toCharArray();
+		for (int i = 0; i < cArray.length; i++)
+		{
+		    if (i == cArray.length-1 && Character.toLowerCase(cArray[i]) == 'e' 
+		    		&& newSyllable && numSyllables > 0) {
+                numSyllables--;
+            }
+		    if (newSyllable && vowels.indexOf(Character.toLowerCase(cArray[i])) >= 0) {
+				newSyllable = false;
+				numSyllables++;
+			}
+			else if (vowels.indexOf(Character.toLowerCase(cArray[i])) < 0) {
+				newSyllable = true;
+			}
+		}
+	
+		return numSyllables;
+	// my own solution, but doesn't work properly
+	// 		if (word.isEmpty()) {
+	//	        return 0;
+	//	    }
+	//
+	//	    // Remove trailing 'e' if it's not at the beginning
+	//	    String processedWord = word.toLowerCase().replaceAll("e$", "");
+	//
+	//	    // Count contiguous sequences of vowels
+	//	    int syllableCount = 0;
+	//	    boolean inSyllable = false;
+	//
+	//	    // Check if the word starts with a vowel
+	//	    if (isVowel(processedWord.charAt(0))) {
+	//	        syllableCount++;
+	//	        inSyllable = true;
+	//	    }
+	//
+	//	    for (int i = 1; i < processedWord.length(); i++) {
+	//	        char c = processedWord.charAt(i);
+	//	        if (!(inSyllable) && isVowel(c)) {
+	//                syllableCount++;
+	//                inSyllable = true;
+	//	        } else {
+	//	            inSyllable = false;
+	//	        }
+	//	    }
+	//	    return syllableCount;
 	}
+	
+//	/**
+//	 * Helper method to check if a character is a vowel.
+//	 *
+//	 * @param c The character to check.
+//	 * @return True if the character is a vowel, false otherwise.
+//	 * @author Sergei Brusentsov
+//	 */
+//	private boolean isVowel(char c) {
+//	    return "aeiouy".indexOf(c) != -1;
+//	}
+	
 	
 	/** A method for testing
 	 * 
@@ -131,13 +187,13 @@ public abstract class Document {
 	public double getFleschScore()
 	{
 	    
-		int wordsCount = this.getText().split("\\s+").length;
-		int sentencesCount  = this.getText().split("\\.+").length;
-		int syllables = 0;
+		int wordsCount = getNumWords();
+		int sentencesCount  = getNumSentences();
+		int syllables = getNumSyllables();
 		double fleschScore = 206.835 - 1.015 * (wordsCount/sentencesCount) - 84.6 * (syllables/wordsCount);
-		// TODO: You will play with this method in week 1, and 
+		// DOne: You will play with this method in week 1, and 
 		// then implement it in week 2
-	    return this.getText().length();
+	    return fleschScore;
 	}
 	
 	
