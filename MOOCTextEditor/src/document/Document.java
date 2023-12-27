@@ -192,10 +192,11 @@ public abstract class Document {
 	public double getFleschScore()
 	{
 	    
-		int wordsCount = getNumWords();
-		int sentencesCount  = getNumSentences();
-		int syllables = getNumSyllables();
+		double wordsCount = getNumWords();
+		double sentencesCount  = getNumSentences();
+		double syllables = getNumSyllables();
 		double fleschScore = 206.835 - 1.015 * (wordsCount/sentencesCount) - 84.6 * (syllables/wordsCount);
+		System.out.println("\t 206.835 - 1.015 * (" + wordsCount/sentencesCount + ") - 84.6 * (" + (double)(syllables/wordsCount) + ") = " + fleschScore);
 		// DOne: You will play with this method in week 1, and 
 		// then implement it in week 2
 	    return fleschScore;

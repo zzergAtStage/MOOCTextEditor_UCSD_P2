@@ -89,7 +89,18 @@ public class BasicDocument extends Document
 		}
         return totalSyllables;
 	}
-
+	
+	public static void testFleschIndex(String text, double expectedScore, String explanation) {
+		System.out.println("testing FleschScore:");
+		System.out.println("\t testing string: " + text);
+		double fleschScore = (new BasicDocument(text)).getFleschScore();
+		boolean passed = true;
+		if (Math.abs(fleschScore - expectedScore) >= 0.001) {
+			passed = false;
+			System.out.println("\t " + explanation);
+		}
+		System.out.println("\t Test result is: " + passed + " expeted: " + expectedScore + " result is: " + fleschScore + "\n\n");
+	}
 
 	/* The main method for testing this class. 
 	 * You are encouraged to add your own tests.  */
@@ -117,6 +128,14 @@ public class BasicDocument extends Document
 		testCase(new BasicDocument("Sentences?!"), 3, 1, 1);
 		testCase(new BasicDocument("Lorem ipsum dolor sit amet, qui ex choro quodsi moderatius, nam dolores explicari forensibus ad."),
 		         32, 15, 1);
+		//my own tests 
+		
+		
+		testFleschIndex("The quick brown fox jumps over the lazy dog.", 94.30, "(206.835 - 1.015 * (6.63) - 84.6 * (0.39)) = 94.15");
+		testFleschIndex("In a hole in the ground there lived a hobbit.", 95.95 , "(206.835 - 1.015 * (7.33) - 84.6 * (0.29)) = 98.22");
+		testFleschIndex("To be or not to be, that is the question.", 103.63 , "(206.835 - 1.015 * (6.25) - 84.6 * (0.47)) = 92.54");
+		
+		
 	}
 	
 }
