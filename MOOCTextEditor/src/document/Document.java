@@ -61,6 +61,8 @@ public abstract class Document {
 	 *       with the following exception: a lone "e" at the end of a word 
 	 *       is not considered a syllable unless the word has no other syllables. 
 	 *       You should consider y a vowel.
+	 * @author none
+	 * part1 of W2 PA
 	 */
 	protected int countSyllables(String word)
 	{
@@ -183,7 +185,10 @@ public abstract class Document {
 		return this.text;
 	}
 	
-	/** return the Flesch readability score of this document */
+	/** return the Flesch readability score of this document 
+	 * @author Sergei Brusentsov
+	 * part1 of W2 PA
+	 */
 	public double getFleschScore()
 	{
 	    

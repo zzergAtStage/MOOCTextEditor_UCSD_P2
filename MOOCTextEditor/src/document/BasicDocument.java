@@ -30,6 +30,8 @@ public class BasicDocument extends Document
 	 * This method should process the entire text string each time it is called.  
 	 * 
 	 * @return The number of words in the document.
+	 * @author Sergei Brusentsov
+	 * part1 of W2 PA
 	 */
 	@Override
 	public int getNumWords()
@@ -51,12 +53,13 @@ public class BasicDocument extends Document
 	 * This method should process the entire text string each time it is called.  
 	 * 
 	 * @return The number of sentences in the document.
+	 * @author Sergei Brusentsov
+	 * For part1 PA W2
 	 */
 	@Override
 	public int getNumSentences()
 	{
-		List<String> sentences = getTokens("[^!.?]+");//DOne: Implement this method.  See the Module 2 support videos 
-        // if you need help.
+		List<String> sentences = getTokens("[^!.?]+");//DOne: Implement this method.  
         return sentences.size();
 	}
 	
@@ -73,6 +76,8 @@ public class BasicDocument extends Document
 	 * This method should process the entire text string each time it is called.  
 	 * 
 	 * @return The number of syllables in the document.
+	 * @author Sergei Brusentsov
+	 * part1 of W2 PA
 	 */
 	@Override
 	public int getNumSyllables()
