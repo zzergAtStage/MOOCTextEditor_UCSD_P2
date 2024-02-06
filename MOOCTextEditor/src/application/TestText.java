@@ -26,6 +26,61 @@ public class TestText {
 		 
 		System.out.println("res of regexp: " + tokens + " array lenght = " + tokens.size());
 		
+		String test = "My ";
+		String s1 = "text";
+		test = test + s1;
+		System.out.println(test);
+		
+		String text = "My ";
+		text.concat("String");
+		System.out.println(text);
+		String[] res = "%one%%two%%%three%%%%".split("[a-z]+");
+		System.out.println(Arrays.toString(res));
+		System.out.println(getTokens("[^, ]+", "one (1), two (2), three (3)"));
+		
+//		StringBuilder qi = new StringBuilder();
+//		qi.append("11231");
+//		qi.delete(start, end)
+		
+		
+		//sorting selection
+		int[] arr = {79,23,43,56,2,2,76};
+		System.out.println(Arrays.toString(arr));
+		for (int i = 0; i < arr.length - 1; i++) {
+			
+			int minIdx = i;
+			for (int j = i; j < arr.length; j++) {
+				if (arr[j] < arr[minIdx]) {
+					//minIdx = j;
+					swap(j,arr, i, j );
+				}
+			}
+ 
+			
+		
+		}
+		System.out.println(Arrays.toString(arr));
+		//sorting bubble
+		int[] arr2 = {79,23,43,56,2,3,76};
+		int currPos; 
+		for (int pos = 1; pos < arr2.length; pos++) {
+			currPos = pos;
+			while(currPos > 0 &&
+					arr2[currPos] < arr2[currPos-1]) {
+				swap(pos, arr2, currPos, currPos-1);
+				currPos -= 1;
+			}
+				
+		}
+		System.out.println(Arrays.toString(arr2));
+		
+	}
+
+	private static void swap(int j, int[] arr, int leftValueMin, int rightValueMin) {
+		System.out.printf("%d-jj Swap: arr[%d]:%d and arr[%d]:%d\n",j,leftValueMin,arr[leftValueMin],rightValueMin,arr[rightValueMin]);
+		int tmp = arr[rightValueMin];
+		arr[rightValueMin] = arr[leftValueMin];
+		arr[leftValueMin] = tmp;
 	}
 
 	public static String replace(String word, char gone, char here) {
