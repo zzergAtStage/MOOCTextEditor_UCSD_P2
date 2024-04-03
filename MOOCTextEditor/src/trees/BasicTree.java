@@ -33,7 +33,7 @@ public class BasicTree<E extends Comparable<E>> {
     }
     public TreeNode<E> insert(E data, TreeNode<E> node) {
 
-        return newNode;
+        return null;
 
     }
 
