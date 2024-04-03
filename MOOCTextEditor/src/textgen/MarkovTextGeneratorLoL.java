@@ -1,16 +1,18 @@
 package textgen;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Random;
+import document.Document;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** 
  * An implementation of the MTG interface that uses a list of lists.
  * @author UC San Diego Intermediate Programming MOOC team 
  */
-public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
+public class MarkovTextGeneratorLoL implements MarkovTextGenerator  {
 
+	public static final int FIRST_WORD = 0;
 	// The list of words with their next words
 	private List<ListNode> wordList; 
 	
@@ -32,6 +34,41 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	@Override
 	public void train(String sourceText)
 	{
+		List<String> tokens = getTokens("[!?.]+|[a-zA-Z]+", sourceText);
+		this.starter = tokens.get(FIRST_WORD);
+
+		String prevWord = this.starter;
+
+		for (int i = 1; i < tokens.size(); i++) {
+			String word = tokens.get(i);
+
+			// Check if prevWord is already a node in the list
+			boolean found = false;
+			for (ListNode node : wordList) {
+				if (node.getWord().equals(prevWord)) {
+					node.addNextWord(word);
+					found = true;
+					break;
+				}
+			}
+
+			// If prevWord is not a node in the list, add it
+			if (!found) {
+				ListNode newNode = new ListNode(prevWord);
+				newNode.addNextWord(word);
+				wordList.add(newNode);
+			}
+
+			prevWord = word;
+		}
+
+		// Add starter to be a next word for the last word in the source text
+		for (ListNode node : wordList) {
+			if (node.getWord().equals(tokens.get(tokens.size() - 1))) {
+				node.addNextWord(this.starter);
+				break;
+			}
+		}
 		// TODO: Implement this method
 	}
 	
@@ -65,8 +102,19 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	}
 	
 	// TODO: Add any private helper methods you need here.
-	
-	
+
+	protected List<String> getTokens(String pattern, String text)
+	{
+		ArrayList<String> tokens = new ArrayList<String>();
+		Pattern tokSplitter = Pattern.compile(pattern);
+		Matcher m = tokSplitter.matcher(text);
+
+		while (m.find()) {
+			tokens.add(m.group());
+		}
+
+		return tokens;
+	}
 	/**
 	 * This is a minimal set of tests.  Note that it can be difficult
 	 * to test methods/classes with randomized behavior.   
