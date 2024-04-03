@@ -1,6 +1,8 @@
 package trees;
 
-/** Realize a basic tree structure
+/**
+ * Realize a basic tree structure
+ *
  * @author father
  */
 public class BasicTree<E extends Comparable<E>> {
@@ -9,6 +11,11 @@ public class BasicTree<E extends Comparable<E>> {
     public BasicTree(E data) {
         this.root = new TreeNode<>(data);
     }
+
+    public BasicTree() {
+
+    }
+
     //pre-ordered traversal
     public TreeNode<E> preOrderedTraversalSearch(E data) {
         TreeNode<E> currentNode = this.root;
@@ -31,18 +38,39 @@ public class BasicTree<E extends Comparable<E>> {
     public TreeNode<E> insert(E data) {
         return insert(data, getRoot());
     }
-    public TreeNode<E> insert(E data, TreeNode<E> node) {
 
-        return null;
+    private TreeNode<E> insert(E data, TreeNode<E> node) {
+        TreeNode<E> currentNode = node;
+        int compareResult = data.compareTo(currentNode.getData());
+        while (compareResult < 0 && currentNode.getLeftNode() != null ||
+                compareResult > 0 && currentNode.getRightNode() != null) {
+
+            if (compareResult < 0) {
+                currentNode = currentNode.getLeftNode();
+            } else {
+                currentNode = currentNode.getRightNode();
+            }
+            compareResult = data.compareTo(currentNode.getData());
+        }
+        if (compareResult < 0) {
+            return currentNode.addLeftChild(data);
+        } else if (compareResult > 0) {
+            return currentNode.addRightNode(data);
+        } else {
+            return null; }
 
     }
 
-    public TreeNode<E> findObject(TreeNode<E> node, E data) {
-        boolean isFound = false;
+
+    public TreeNode<E> findObject(E data) {
+        TreeNode<E> curr = getRoot();
+        while (curr != null) {
+
+        }
         return null;
     }
 
     public TreeNode<E> getRoot() {
-        return root;
+        return this.root;
     }
 }

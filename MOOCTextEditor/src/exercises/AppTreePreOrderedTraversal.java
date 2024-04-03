@@ -1,5 +1,7 @@
 package exercises;
 
+import trees.BasicTree;
+
 import java.util.stream.IntStream;
 
 public class AppTreePreOrderedTraversal {
@@ -13,9 +15,5 @@ public class AppTreePreOrderedTraversal {
         "ABCDEFG".chars()
                 .mapToObj(c -> (char) c)
                 .forEach(bTree::insert);
-        bTree.preOrder();
-        System.out.println();
-        bTree.levelOrdered();
-
     }
 }
