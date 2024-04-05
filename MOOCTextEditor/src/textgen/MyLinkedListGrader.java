@@ -1,8 +1,9 @@
 package textgen;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.FileAttribute;
 
 public class MyLinkedListGrader {
 	
@@ -46,7 +47,7 @@ public class MyLinkedListGrader {
                 int tests = 0;
                 String feedback = "";
 		try {
-			out = new PrintWriter("grader_output/module3.part1.out", "utf-8");
+			out = new PrintWriter("/grader_output/module3.part1.out", "utf-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
