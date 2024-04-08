@@ -47,7 +47,9 @@ public class MyLinkedListGrader {
                 int tests = 0;
                 String feedback = "";
 		try {
-			out = new PrintWriter("/grader_output/module3.part1.out", "utf-8");
+			File dirPath = new File("MOOCTextEditor/grader_output");
+			if (!dirPath.exists()) System.out.println("Dir not exists!");
+			out = new PrintWriter("MOOCTextEditor/grader_output/module3.part1.out", "utf-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
