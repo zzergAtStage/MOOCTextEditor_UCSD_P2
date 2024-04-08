@@ -1,7 +1,6 @@
 package spelling;
 
 import java.io.PrintWriter;
-import java.lang.StringBuilder;
 import java.util.List;
 
 public class TrieGrader {

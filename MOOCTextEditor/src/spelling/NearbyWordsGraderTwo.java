@@ -1,8 +1,7 @@
 package spelling;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class NearbyWordsGraderTwo {
     public static void main(String args[]) {

@@ -2,8 +2,6 @@ package exercises;
 
 import trees.BasicTree;
 
-import java.util.stream.IntStream;
-
 public class AppTreePreOrderedTraversal {
 
     public static void main(String[] args) {

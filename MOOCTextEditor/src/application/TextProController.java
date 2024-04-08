@@ -1,7 +1,5 @@
 package application;
 
-import java.util.function.Consumer;
-
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -14,6 +12,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.function.Consumer;
 
 
 public class TextProController {

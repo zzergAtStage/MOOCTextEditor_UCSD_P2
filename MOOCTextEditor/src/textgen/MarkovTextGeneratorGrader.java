@@ -1,8 +1,8 @@
 package textgen;
 
-import java.util.Random;
-import java.util.HashMap;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Random;
 
 public class MarkovTextGeneratorGrader {
     private static final int LENGTH = 500;

@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import document.BasicDocument;
-import document.Document;
-
 public class TestText {
 	public static void main(String[] args) {
 		String s = "happy";

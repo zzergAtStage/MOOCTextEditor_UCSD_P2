@@ -57,7 +57,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
     public E get(int index) {
-        checkBounds(index);
+        checkBoundsGet(index);
         LLNode<E> currNode = getEllNode(index);
         return currNode.data;
     }
@@ -69,20 +69,19 @@ public class MyLinkedList<E> extends AbstractList<E> {
      * @param element The element to add
      */
     public void add(int index, E element) {
-        checkBounds(index);
-        LLNode<E> currNode = getEllNode(index);
+        checkBoundsAdd(index);
+        LLNode<E> currNode;
+        if (this.size == 0) {
+            currNode = this.tail;
+        } else {
+            currNode = getEllNode(index);
+        }
         LLNode<E> newNode = new LLNode<>(element);
         newNode.prev = currNode.prev;
         newNode.prev.next = newNode;
         currNode.prev = newNode;
         newNode.next = currNode;
         this.size++;
-    }
-
-    private void checkBounds(int index) {
-        if (index < 0 || this.size == 0 || index > this.size - 1) {
-            throw new IndexOutOfBoundsException("Index should be between 0 and " + this.size());
-        }
     }
 
 
@@ -101,7 +100,8 @@ public class MyLinkedList<E> extends AbstractList<E> {
      * @throws IndexOutOfBoundsException If index is outside the bounds of the list
      */
     public E remove(int index) {
-        checkBounds(index);
+        if (this.size == 0 ) return null;
+        if (!checkInBoundsToRemove(index)) return null;
         LLNode<E> currNode = getEllNode(index);
         LLNode<E> restNode = currNode.prev;
         restNode.next = currNode.next;
@@ -119,14 +119,37 @@ public class MyLinkedList<E> extends AbstractList<E> {
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
     public E set(int index, E element) {
-        checkBounds(index);
+        checkBoundsGet(index);
+        checkNullElements(element);
         LLNode<E> currNode = getEllNode(index);
         E valueToReturn = currNode.getData();
         currNode.setData(element);
         return valueToReturn;
     }
+//Helper methods
+    private void checkBoundsAdd(int index) {
+        //logic: iif we add at any position or inbounds, it will pass good
+        // if we add to empty list, position will be 0, but the upper bound will 0 too
+        if (index < 0 || (index > this.size - 1 && index != 0)) {
+            throw new IndexOutOfBoundsException("Index should be between 0 and " + this.size() + ". Given is: " + index);
+        }
+    }
+
+    private void checkBoundsGet(int index) {
+        if (index < 0 || this.size == 0
+                || index > this.size - 1 ) {
+            throw new IndexOutOfBoundsException("Index should be between 0 and " + this.size() + ". Given is: " + index);
+        }
+    }
+    //returns true if out of bounds
+    private boolean checkInBoundsToRemove(int index) {
+        if (index < 0 || this.size > 0 && index > this.size - 1) throw new IndexOutOfBoundsException("Invalid index through remove method");
+        return index >= 0 && this.size != 0
+                && index <= this.size - 1;
+    }
 
     private LLNode<E> getEllNode(int index) {
+        if (this.size == 0 ) return this.head;
         int curr = this.FIRST;
         LLNode<E> currNode = this.head.next;
         while (index != curr) {
@@ -134,6 +157,18 @@ public class MyLinkedList<E> extends AbstractList<E> {
             currNode = currNode.next;
         }
         return currNode;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+        int idx = 0;
+        while (idx < this.size) {
+            result.append(this.get(idx).toString())
+                    .append(" ");
+            idx++;
+        }
+        return result.toString();
     }
 }
 

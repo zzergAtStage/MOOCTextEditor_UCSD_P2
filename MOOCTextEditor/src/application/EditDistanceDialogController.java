@@ -1,11 +1,12 @@
 package application;
 
-import java.util.List;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class EditDistanceDialogController {
 	private Stage dialogStage;
