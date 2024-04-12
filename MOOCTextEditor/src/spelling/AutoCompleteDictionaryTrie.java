@@ -1,6 +1,6 @@
 package spelling;
 
-import java.util.List;
+import java.util.*;
 
 /** 
  * An trie data structure that implements the Dictionary and the AutoComplete ADT
@@ -11,7 +11,10 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 
     private TrieNode root;
     private int size;
-    
+
+
+
+	private boolean convertAllWordsToLowerCase = true; // by default it will be enabled
 
     public AutoCompleteDictionaryTrie()
 	{
@@ -35,8 +38,36 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 */
 	public boolean addWord(String word)
 	{
-	    //TODO: Implement this method.
-	    return false;
+		String wordInLowerCase = convertAllWordsToLowerCase ? word.toLowerCase() : word;
+
+		// Start from the root node
+		TrieNode current = root;
+
+		// Iterate through each character in the word
+		for (int i = 0; i < wordInLowerCase.length(); i++) {
+			char c = wordInLowerCase.charAt(i);
+
+			// Get the child node corresponding to the current character
+			TrieNode child = current.getChild(c);
+
+			// If the child node doesn't exist, create a new one
+			if (child == null) {
+				child = current.insert(c);
+			}
+
+			// Move to the child node
+			current = child;
+		}
+
+		// If the word wasn't already in the trie, mark the last node as an end of a word
+		if (!current.endsWord()) {
+			current.setEndsWord(true);
+			size++;
+			return true;
+		}
+
+		// Word already exists in the trie
+		return false;
 	}
 	
 	/** 
@@ -45,8 +76,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 */
 	public int size()
 	{
-	    //TODO: Implement this method
-	    return 0;
+	    return this.size;
 	}
 	
 	
@@ -55,9 +85,28 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	@Override
 	public boolean isWord(String s) 
 	{
-	    // TODO: Implement this method
-		return false;
+		// Convert the word to lower case if needed
+		String wordToCheck = convertAllWordsToLowerCase ? s.toLowerCase() : s;
+
+		TrieNode current = root;
+
+		// Iterate through each character in the word
+		for (int i = 0; i < wordToCheck.length(); i++) {
+			char c = wordToCheck.charAt(i);
+			// Get the child node corresponding to the current character
+			current = current.getChild(c);
+
+			// If the child node doesn't exist, the word is not in the trie
+			if (current == null) {
+				return false;
+			}
+		}
+
+		// Check if the last node marks the end of a word
+		return current.endsWord();
 	}
+
+
 
 	/** 
      * Return a list, in order of increasing (non-decreasing) word length,
@@ -96,8 +145,35 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     	 //       If it is a word, add it to the completions list
     	 //       Add all of its child nodes to the back of the queue
     	 // Return the list of completions
-    	 
-         return null;
+		 // Convert the prefix to lower case if needed
+		 String prefixToSearch = convertAllWordsToLowerCase ? prefix.toLowerCase() : prefix;
+
+		 // Find the stem in the trie
+		 TrieNode current = root;
+		 for (int i = 0; i < prefixToSearch.length(); i++) {
+			 char c = prefixToSearch.charAt(i);
+			 current = current.getChild(c);
+			 if (current == null) {
+				 return new ArrayList<>(); // Prefix not found in the trie
+			 }
+		 }
+
+		 // Perform breadth-first search to generate completions
+		 List<String> completions = new ArrayList<>();
+		 Queue<TrieNode> queue = new LinkedList<>();
+		 queue.add(current);
+
+		 while (!queue.isEmpty() && completions.size() < numCompletions) {
+			 TrieNode node = queue.remove();
+			 if (node.endsWord()) {
+				 completions.add(node.getText());
+			 }
+			 for (char c : node.getValidNextCharacters()) {
+				 queue.add(node.getChild(c));
+			 }
+		 }
+
+		 return completions;
      }
 
  	// For debugging
@@ -120,7 +196,9 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
  			printNode(next);
  		}
  	}
- 	
 
+	public void setConvertAllWordsToLowerCase(boolean convertAllWordsToLowerCase) {
+		this.convertAllWordsToLowerCase = convertAllWordsToLowerCase;
+	}
 	
 }
