@@ -1,9 +1,7 @@
 package textgen;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.attribute.BasicFileAttributeView;
-import java.nio.file.attribute.FileAttribute;
+import java.io.File;
+import java.io.PrintWriter;
 
 public class MyLinkedListGrader {
 	
