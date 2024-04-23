@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @author UC San Diego Intermediate MOOC team
- *
+ * @author father
  */
 public class NearbyWords implements SpellingSuggest {
 	// THRESHOLD to determine how many words to look through when looking
@@ -46,7 +46,6 @@ public class NearbyWords implements SpellingSuggest {
 	 * @param s The original String
 	 * @param currentList is the list of words to append modified words 
 	 * @param wordsOnly controls whether to return only words or any String
-	 * @return
 	 */
 	public void substitution(String s, List<String> currentList, boolean wordsOnly) {
 		// for each letter in the s and for all possible replacement characters
@@ -73,10 +72,25 @@ public class NearbyWords implements SpellingSuggest {
 	 * @param s The original String
 	 * @param currentList is the list of words to append modified words 
 	 * @param wordsOnly controls whether to return only words or any String
-	 * @return
 	 */
 	public void insertions(String s, List<String> currentList, boolean wordsOnly ) {
-		// TODO: Implement this method  
+		/*we should to insert any alphabet symbols and if it valid word and not present
+		in current list, add it
+		**/
+		for( int index = 0; index <= s.length(); index++){
+			for (int charCode = 'a'; charCode <= 'z' ; charCode++) {
+				//insert a new symbol in the positions at index
+				StringBuffer stringBuffer = new StringBuffer(s);
+				stringBuffer.insert(index, ((char) charCode));
+				//check new 'word'
+				// (if wordsOnly is true) is a real word, add to the list
+				if(!currentList.contains(stringBuffer.toString()) &&
+						(!wordsOnly||dict.isWord(stringBuffer.toString())) &&
+						!s.equals(stringBuffer.toString())) {
+					currentList.add(stringBuffer.toString());
+				}
+			}
+		}
 	}
 
 	/** Add to the currentList Strings that are one character deletion away
@@ -84,10 +98,19 @@ public class NearbyWords implements SpellingSuggest {
 	 * @param s The original String
 	 * @param currentList is the list of words to append modified words 
 	 * @param wordsOnly controls whether to return only words or any String
-	 * @return
 	 */
 	public void deletions(String s, List<String> currentList, boolean wordsOnly ) {
-		// TODO: Implement this method
+		for( int index = 0; index < s.length(); index++){
+			StringBuffer stringBuffer = new StringBuffer(s);
+			stringBuffer.deleteCharAt(index);
+			//check new 'word'
+			// (if wordsOnly is true) is a real word, add to the list
+			if(!currentList.contains(stringBuffer.toString()) &&
+					(!wordsOnly||dict.isWord(stringBuffer.toString())) &&
+					!s.equals(stringBuffer.toString())) {
+				currentList.add(stringBuffer.toString());
+			}
+		}
 	}
 
 	/** Add to the currentList Strings that are one character deletion away
@@ -110,28 +133,39 @@ public class NearbyWords implements SpellingSuggest {
 		queue.add(word);
 		visited.add(word);
 					
-		// TODO: Implement the remainder of this method, see assignment for algorithm
-		
+		while (retList.size() < numSuggestions &&
+                !queue.isEmpty()) {
+			String currWord = queue.remove(0);
+			List<String> neighbors = distanceOne(currWord,true);
+			for (String neighbor : neighbors){
+				if (!visited.contains(neighbor)) {
+					visited.add(neighbor);
+					queue.add(neighbor);
+					if (dict.isWord(neighbor)){
+						retList.add(neighbor);
+					}
+				}
+			}
+		}
 		return retList;
-
 	}	
 
    public static void main(String[] args) {
-	   /* basic testing code to get started
+	   // basic testing code to get started
 	   String word = "i";
 	   // Pass NearbyWords any Dictionary implementation you prefer
 	   Dictionary d = new DictionaryHashSet();
-	   DictionaryLoader.loadDictionary(d, "data/dict.txt");
+	   DictionaryLoader.loadDictionary(d, "MOOCTextEditor/data/dict.txt");
 	   NearbyWords w = new NearbyWords(d);
 	   List<String> l = w.distanceOne(word, true);
 	   System.out.println("One away word Strings for for \""+word+"\" are:");
 	   System.out.println(l+"\n");
 
 	   word = "tailo";
-	   List<String> suggest = w.suggestions(word, 10);
+	   List<String> suggest = w.suggestions(word, 100);
 	   System.out.println("Spelling Suggestions for \""+word+"\" are:");
 	   System.out.println(suggest);
-	   */
+
    }
 
 }
